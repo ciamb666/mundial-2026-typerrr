@@ -65,6 +65,10 @@ export default function Dashboard() {
     window.location.href = "/";
   }
 
+  function goToRanking() {
+    window.location.href = "/ranking";
+  }
+
   function isMatchLocked(match: any) {
     const kickoffTime = new Date(match.kickoff);
     const now = new Date();
@@ -137,7 +141,7 @@ export default function Dashboard() {
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white p-8">
-      <div className="flex justify-between items-start mb-8">
+      <div className="flex flex-col gap-4 mb-8 md:flex-row md:justify-between md:items-start">
         <div>
           <h1 className="text-4xl font-bold">Panel Typera Mundial 2026</h1>
 
@@ -148,12 +152,25 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <button
-          onClick={logout}
-          className="rounded bg-red-600 px-4 py-2 font-bold"
-        >
-          Wyloguj
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button className="rounded bg-white px-4 py-2 font-bold text-black">
+            ⚽ Typowanie
+          </button>
+
+          <button
+            onClick={goToRanking}
+            className="rounded bg-yellow-500 px-4 py-2 font-bold text-black"
+          >
+            🏆 Ranking
+          </button>
+
+          <button
+            onClick={logout}
+            className="rounded bg-red-600 px-4 py-2 font-bold"
+          >
+            Wyloguj
+          </button>
+        </div>
       </div>
 
       <h2 className="text-2xl font-semibold mb-4">Mecze</h2>
