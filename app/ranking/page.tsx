@@ -38,13 +38,15 @@ export default function RankingPage() {
     const totals: Record<string, number> = {};
 
     for (const row of predictionsData || []) {
+      if (!profilesMap[row.user_id]) continue;
+
       totals[row.user_id] = (totals[row.user_id] || 0) + (row.points || 0);
     }
 
     const rankingArray = Object.entries(totals)
       .map(([user_id, points]) => ({
         user_id,
-        username: profilesMap[user_id] || user_id,
+        username: profilesMap[user_id],
         points,
       }))
       .sort((a, b) => b.points - a.points);
@@ -68,11 +70,22 @@ export default function RankingPage() {
     return "border-zinc-700";
   }
 
+  function goToDashboard() {
+    window.location.href = "/dashboard";
+  }
+
   return (
     <main className="min-h-screen bg-zinc-950 text-white p-8">
-      <h1 className="text-4xl font-bold mb-8">
-        🏆 Ranking Typera
-      </h1>
+      <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <h1 className="text-4xl font-bold">🏆 Ranking Typera</h1>
+
+        <button
+          onClick={goToDashboard}
+          className="rounded bg-white px-4 py-2 font-bold text-black"
+        >
+          ⚽ Wróć do typowania
+        </button>
+      </div>
 
       <div className="space-y-3">
         {ranking.map((user, index) => (
@@ -82,9 +95,7 @@ export default function RankingPage() {
               index
             )} rounded p-4 flex items-center justify-between`}
           >
-            <div className="text-2xl font-bold w-16">
-              {getMedal(index)}
-            </div>
+            <div className="text-2xl font-bold w-16">{getMedal(index)}</div>
 
             <div className="flex-1 text-center text-lg font-semibold">
               {user.username}
